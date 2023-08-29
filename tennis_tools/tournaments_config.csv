@@ -1,4 +1,3 @@
-# Possible scoring_systems are listed in the dictionary 'get' in tennis_tools/scoring_systems/__init__.py
 tournament,scoring_system,date
 AICS 2022,mrdodo,Jun 2022
 AICS 2022 - Fase Eliminatoria,mrdodo,Jun 2022
