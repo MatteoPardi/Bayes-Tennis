@@ -29,7 +29,7 @@ class Loss:
             self.terms[scoring_system_name] = LogLikelihoodTerm(new_scoring_system())
         self.terms[scoring_system_name].add(new_score, new_players_idx, new_passed_months)
         
-    def set_weights (self, half_time=8, months_shift='last played'):
+    def set_weights (self, half_time=10, months_shift='last played'):
     
         if months_shift == 'last played': months_shift = self._get_last_played_month()
         for name, term in self.terms.items():

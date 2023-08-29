@@ -19,7 +19,7 @@ class TennisUniverse (TennisUniverse_Base):
                   n_iter=3000, 
                   lr_start=1e-1, 
                   lr_end=1e-3, 
-                  half_time=8, 
+                  half_time=10, 
                   months_shift='last played',
                   device='cpu',
                   verbose=100):

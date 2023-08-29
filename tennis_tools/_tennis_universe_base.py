@@ -227,5 +227,5 @@ _accepted_keys = {
     'tournament': ['tournament', 'torneo']
 }      
 _here = os.path.dirname(os.path.abspath(__file__))
-_tournaments_config = pd.read_csv(_here+"/tournaments_config.csv", skiprows=1)
+_tournaments_config = pd.read_csv(_here+"/tournaments_config.csv")
 _tournaments_config.set_index('tournament', inplace=True)
