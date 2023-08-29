@@ -1,0 +1,30 @@
+## Guide to create a new scoring system
+Please look at the `MrDodo` scoring system to see an example, defined in the python module `mrdodo.py`.
+
+A 'scoring system' is a class satisfying the following template:
+```python
+class MyScoringSystem:
+
+	def proba (self, score, abilities):
+	# <...>
+	
+	def proba_A_wins (self, abilities):
+	# <...>
+```
+Here `abilities` and `score` are `torch.Tensor`s with the same shape, except for the last dimension:
+- `abilities.shape[-1]` = `2` (singles) or `4` (doubles), and contains the players' abilities of that match.
+- `score.shape[-1]` depends on the scoring system, and the formalism chosen to report the score.
+The other dimensions are used to work with batches of matches.
+
+Utilization:
+- `proba(score, abilities)` computes the probability of that score according to those abilities.
+- `proba_A_wins(abilities)` computes the probability that player(s) A wins the match according to those abilities.
+
+### Check Score Function
+
+Each scoring system must be defined togheter with its corresponding 'check score function', a function satisfying the following template:
+```python
+def myscoringsystem_check_score (score):
+# <...>
+```
+Here `score` is a list of int. Utilization: `myscoringsystem_check_score(score)` returns `False` if the new scoring systems doesn't recognize the score as admittable, else returns `score`, or a processed version of it (ready to be passed to `TennisUniverse.loss.add(<...>)`.
