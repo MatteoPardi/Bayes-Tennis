@@ -42,12 +42,12 @@ from .myscoringsystem import MyScoringSystem, myscoringsystem_check_score # <---
 
 get = {
     'mrdodo': MrDodo,
-	'myscoringsystem': MyScoringSystem # # <------ !
+    'myscoringsystem': MyScoringSystem # # <------ !
 }
 
 check_if_admittable_score = {
     'mrdodo': mrdodo_check_score,
-	'myscoringsystem': myscoringsystem_check_score # <------ !
+    'myscoringsystem': myscoringsystem_check_score # <------ !
 }
 ```
 Now the new scoring system is ready to be used: `myscoringsystem` will be its name.
