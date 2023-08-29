@@ -28,4 +28,25 @@ Each scoring system must be defined togheter with its corresponding 'check score
 def myscoringsystem_check_score (score):
 # <...>
 ```
-Here `score` is a list of int. Utilization: `myscoringsystem_check_score(score)` returns `False` if the new scoring systems doesn't recognize the score as admittable, else returns `score`, or a processed version of it (ready to be passed to `TennisUniverse.loss.add(<...>)`.
+Here `score` is a list of int. Utilization: `myscoringsystem_check_score(score)` returns `False` if the new scoring systems doesn't recognize the score as admittable, else returns `score`, or a preprocessed version of it (ready to be passed to `TennisUniverse.loss.add(<...>)`.
+
+### Make it available
+
+Eventually, to make the new scoring system ready to be used, modify `__init__.py` in this way (let's assume we defined the new scoring system in a file called `myscoringsystem.py`):
+```python
+# tennis_tools/scoring_systems/__init__.py
+from .base import BasicBlock, p_from_abilities_formula
+from .mrdodo import MrDodo, mrdodo_check_score
+from .myscoringsystem import MyScoringSystem, myscoringsystem_check_score # <---
+
+get = {
+    'mrdodo': MrDodo,
+	'myscoringsystem': MyScoringSystem # <---
+}
+
+check_if_admittable_score = {
+    'mrdodo': mrdodo_check_score,
+	'myscoringsystem': myscoringsystem_check_score # <---
+}
+```
+Now the new scoring system is ready to be used: `myscoringsystem` will be its name.

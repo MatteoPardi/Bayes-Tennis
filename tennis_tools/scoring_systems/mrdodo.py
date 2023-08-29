@@ -66,7 +66,7 @@ class MrDodo:
 
 def mrdodo_check_score (score):
     
-    if len(score) == 4: score += [0,0]
+    if len(score) == 4: score += [0,0] # preprocess
     if len(score) != 6: return False
     set_1 = _check_set(score[0], score[1])
     if set_1 is None: return False
