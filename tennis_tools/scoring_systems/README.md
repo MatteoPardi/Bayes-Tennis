@@ -11,9 +11,10 @@ class MyScoringSystem:
 	def proba_A_wins (self, abilities):
 	# <...>
 ```
-Here `abilities` and `score` are `torch.Tensor`s with the same shape, except for the last dimension:
-- `abilities.shape[-1]` = `2` (singles) or `4` (doubles), and contains the players' abilities of that match.
+Here `abilities` and `score` are `torch.Tensor`s having the same shape, except in the last dimension:
+- `abilities.shape[-1]` = `2` (singles) or `4` (doubles).
 - `score.shape[-1]` depends on the scoring system, and the formalism chosen to report the score.
+
 The other dimensions are used to work with batches of matches.
 
 Utilization:
