@@ -106,41 +106,41 @@ tu.rejected
   <tbody>
     <tr>
       <th rowspan="2" valign="top">data_1.csv</th>
-      <th>37</th>
+      <th>35</th>
       <td>score not admittable</td>
     </tr>
     <tr>
-      <th>128</th>
+      <th>126</th>
       <td>score not admittable</td>
     </tr>
     <tr>
       <th rowspan="3" valign="top">data_2.csv</th>
-      <th>104</th>
+      <th>102</th>
       <td>players not admittable</td>
     </tr>
     <tr>
-      <th>225</th>
+      <th>223</th>
       <td>score not admittable</td>
     </tr>
     <tr>
-      <th>274</th>
+      <th>272</th>
       <td>score not admittable</td>
     </tr>
     <tr>
       <th rowspan="4" valign="top">other_data.csv</th>
-      <th>39</th>
+      <th>37</th>
       <td>score not admittable</td>
     </tr>
     <tr>
-      <th>46</th>
+      <th>44</th>
       <td>players not admittable</td>
     </tr>
     <tr>
-      <th>153</th>
+      <th>151</th>
       <td>score not admittable</td>
     </tr>
     <tr>
-      <th>244</th>
+      <th>242</th>
       <td>score not admittable</td>
     </tr>
   </tbody>
@@ -182,35 +182,35 @@ tu.df
   <tbody>
     <tr>
       <th rowspan="5" valign="top">data_1.csv</th>
-      <th>2</th>
+      <th>0</th>
       <td>Pierluigi Pacomio</td>
       <td>Fulvio Zoppetti</td>
       <td>1-6 2-6</td>
       <td>Mr. Dodo 22</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>1</th>
       <td>Telemaco Pizzetti, Baldassare Nosiglia</td>
       <td>Atenulf Solimena, Lucio Conte</td>
       <td>4-6 2-6</td>
       <td>Mr. Dodo 22</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>2</th>
       <td>Vittorio Giannuzzi</td>
       <td>Ippazio Milanesi</td>
       <td>7-6 6-4</td>
       <td>Mr. Dodo 22</td>
     </tr>
     <tr>
-      <th>5</th>
+      <th>3</th>
       <td>Gabriele Fantoni</td>
       <td>Domenico Cusano</td>
       <td>6-0 6-0</td>
       <td>Mr. Dodo 22</td>
     </tr>
     <tr>
-      <th>6</th>
+      <th>4</th>
       <td>Cirillo Pisaroni</td>
       <td>Ugolino Ricciardi</td>
       <td>6-2 6-0</td>
@@ -226,35 +226,35 @@ tu.df
     </tr>
     <tr>
       <th rowspan="5" valign="top">other_data.csv</th>
-      <th>245</th>
+      <th>243</th>
       <td>Fulvio Zoppetti</td>
       <td>Gianni Guarana</td>
       <td>5-7 2-6</td>
       <td>Mr. Dodo 22 - Fase Eliminatoria</td>
     </tr>
     <tr>
-      <th>246</th>
+      <th>244</th>
       <td>Atenulf Solimena, Adriano Spinelli</td>
       <td>Giacinto Orengo, Manuel Cannizzaro</td>
       <td>5-7 3-6</td>
       <td>Mr. Dodo 22 - Fase Eliminatoria</td>
     </tr>
     <tr>
-      <th>247</th>
+      <th>245</th>
       <td>Gabriele Fantoni</td>
       <td>Ennio Rizzoli</td>
       <td>3-6 7-6 7-10</td>
       <td>Mr. Dodo 22 - Fase Eliminatoria</td>
     </tr>
     <tr>
-      <th>248</th>
+      <th>246</th>
       <td>Manuel Cannizzaro</td>
       <td>Pasqual Dovara</td>
       <td>6-3 7-6</td>
       <td>Mr. Dodo 22 - Fase Eliminatoria</td>
     </tr>
     <tr>
-      <th>249</th>
+      <th>247</th>
       <td>Donato Cattaneo, Sebastiano Alfieri</td>
       <td>Ubaldo Ramazzotti, Gioffre Farina</td>
       <td>6-3 6-3</td>
@@ -540,7 +540,7 @@ tu.optimize()
      n 2800: loss = 1650.7310791015625
      n 2900: loss = 1650.7310791015625
      n 3000: loss = 1650.7310791015625 (end)
-    (toc) 21.75 s
+    (toc) 14.73 s
     
 
 ### Ranking (Optimized)

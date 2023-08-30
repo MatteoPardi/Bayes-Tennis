@@ -69,7 +69,7 @@ class TennisUniverse_Base:
         for key in ['players A', 'players B', 'score', 'tournament']:
             df[key] = file_df[self._how_it_is_called_in_this_file(key, file_df.columns)]  
         df['file'] = file
-        df['file_row'] = pd.Series(list(range(2, len(df)+2)))
+        df['file_row'] = pd.Series(list(range(len(df))))
         df.set_index(['file', 'file_row'], inplace=True)
         return df
             
