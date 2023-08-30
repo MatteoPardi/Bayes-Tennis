@@ -1,5 +1,7 @@
 # Bayesian Tennis Ranking
 
+![background_image.png](backgrounnd_image.png)
+
 Let's consider a database of tennis matches as shown below:
 
 |      | players A                           | players B                             | score     | tournament                  |
