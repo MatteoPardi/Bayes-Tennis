@@ -2,8 +2,6 @@
 
 Let's say we have a database of tennis matches like the following:
 
-
-
 <div>
 <table border="1" class="dataframe">
   <thead>
@@ -97,11 +95,7 @@ Let's say we have a database of tennis matches like the following:
 </table>
 </div>
 
-
-
 We would like to get a players' ranking of the form
-
-
 
 <div>
 <table border="1" class="dataframe">
@@ -116,27 +110,27 @@ We would like to get a players' ranking of the form
     <tr>
       <th>1</th>
       <td>Giuseppe Cavalcanti</td>
-      <td>108.079536</td>
+      <td>106.1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Gianluigi Caccianemico</td>
-      <td>105.692780</td>
+      <td>Cirillo Pisaroni</td>
+      <td>105.2</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Cirillo Pisaroni</td>
-      <td>105.672729</td>
+      <td>Gianluigi Caccianemico</td>
+      <td>104.9</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Ottone Basadonna</td>
-      <td>105.509888</td>
+      <td>Dionigi Vecellio</td>
+      <td>104.7</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Dionigi Vecellio</td>
-      <td>105.113510</td>
+      <td>Carlo Peano</td>
+      <td>104.5</td>
     </tr>
     <tr>
       <th>...</th>
@@ -145,34 +139,32 @@ We would like to get a players' ranking of the form
     </tr>
     <tr>
       <th>201</th>
-      <td>Nanni Lucchesi</td>
-      <td>93.622917</td>
+      <td>Sandro Abba</td>
+      <td>95.4</td>
     </tr>
     <tr>
       <th>202</th>
       <td>Marcello Cibin</td>
-      <td>92.758682</td>
+      <td>95.2</td>
     </tr>
     <tr>
       <th>203</th>
-      <td>Ranieri Trapani</td>
-      <td>92.602478</td>
+      <td>Lazzaro Luna</td>
+      <td>94.8</td>
     </tr>
     <tr>
       <th>204</th>
       <td>Gionata Gulotta</td>
-      <td>91.815338</td>
+      <td>94.4</td>
     </tr>
     <tr>
       <th>205</th>
       <td>Valerio Aporti</td>
-      <td>91.770103</td>
+      <td>93.2</td>
     </tr>
   </tbody>
 </table>
 </div>
-
-
 
 Typical ranking methods are based on the 'you update when you play' rule:
 - each time a player plays a match its ability changes
@@ -193,29 +185,54 @@ $$
 \psi = \frac{1}{2} + \frac{1}{\pi} \arctan \left( \frac{a_A - a_B}{10} \right) \ .
 $$
 
-This completely defines the likelihood of a match score $s$
+To interpret this formula the following table can be useful:
+
+| $a_A - a_B$ | $\psi$ |
+|------------|--------|
+| $0$        | $0.5$  |
+| $1$        | $0.53$ |
+| $2$        | $0.56$ |
+| $3$        | $0.59$ |
+| $5$        | $0.65$ |
+| $10$       | $0.75$ |
+
+More or less, we can say that $|a_A - a_B| \geq 3$ makes the winner already determined (if A wins *a single point* 60% of the time...). The model completely defines the likelihood of a match score $s$
 $$
-p(s|a_A, a_B)
+p(s|a_A, a_B) \ ,
 $$
 
 which can be derived analytically without particular difficulties (given the scoring system of the tournament we are interested to).
 
-Treating the database as a set of independent matches, with scores $s_i$ where $i = 1, \dots, N$, we can compute the (log)likelihood of the data
+Treating the database as a set of independent matches, with scores $s_i$ where $i = 1, \dots, N$, we can compute the (log)-likelihood of the data
 $$
-\log p(s_1, \dots, s_N | a_1, \dots, a_M) = \sum_{i=1}^{N} \log p (s_i | a_A^{(i)}, a_B^{(i)})
-$$
-
-To get the abilities from the database, we could find the maximum likelihood estimator of the abilities. Instead of doing this, it is a good practice to introduce a (log)-prior bayesian term to regularize the optimization. As instance, assuming a Gaussian distribution with mean 0 (useful also to break the translational symmetry of the model during the optimization) and std 5 (intuitively reasonable by looking at the $\psi$-formula) we get as loss function to minimize:
-$$
-\mathcal{L}(a_1, \dots, a_M) = -\log p(s_1, \dots, s_N | a_1, \dots, a_M) + \frac{1}{50} \sum_{j=1}^{M} {a_j}^2
+\log p(s_1, \dots, s_N | a_1, \dots, a_M) = \sum_{i=1}^{N} \log p (s_i | a_A^{(i)}, a_B^{(i)}) \ .
 $$
 
-Thus, a first proposal to get the desidered ranking could be
+To get the abilities from the database, we could find the maximum likelihood estimator of the abilities. Instead of doing this, it is a good practice to introduce a (log)-prior bayesian term as regularization. A heuristic reasonable proposal is a Gaussian distribution with mean 0 (to break the translational symmetry of the model during the optimization) and standard deviation $\sigma$. Now: it's easy to show analytically that, under that gaussian distribution, $\langle |a_A - a_B| \rangle = 2 \sigma / \sqrt{\pi}$. Looking at the $a_A - a_B$ vs $\psi$ table above, a heuristic reasonable proposal for $\langle |a_A - a_B| \rangle$ could be 2, from which it follows that $\sigma = \sqrt{\pi} \approx 1.77$ should be reasonable. Finally, we get the loss function $\mathcal{L}$ to minimize:
 $$
-\mathbf{\hat{a}} = \mathrm{argmin} \, \mathcal{L}(\mathbf{a})
+\mathcal{L}(a_1, \dots, a_M) = -\log p(s_1, \dots, s_N | a_1, \dots, a_M) + \frac{1}{\pi} \sum_{j=1}^{M} {a_j}^2 \ .
+$$
+
+A simple idea to get the desidered ranking is
+$$
+\mathbf{\hat{a}} = \mathrm{argmin} \, \mathcal{L}(\mathbf{a}) \ ,
 $$
 
 but conventionally, to break the translational symmetry of the model in an useful way, we translate $\mathbf{\hat{a}}$ so that its median is 100: the definitive ranking $\mathbf{a}$ is then
 $$
-\mathbf{a} = \mathbf{\hat{a}} - \mathrm{median} (\mathbf{\hat{a}}) + 100
+\mathbf{a} = \mathbf{\hat{a}} - \mathrm{median} (\mathbf{\hat{a}}) + 100 \ .
 $$
+
+##### Temporal Weights
+
+To take into consideration that older matches should carry less weight compared to the newer ones, we can do so by introducing *temporal weights* $w_i$ into the (log)-likelihood:
+$$
+\log p(s_1, \dots, s_N | a_1, \dots, a_M) := \sum_{i=1}^{N} w_i \log p (s_i | a_A^{(i)}, a_B^{(i)}) \ .
+$$
+
+A simple proposal for their values is
+$$
+w_i = 2^{t_i / \tau} \ ,
+$$
+
+where $\tau$ is the 'half time' of the exponential decay, and $t_i$ measures how much time has passed since the most recent match. $\tau = 10$ months could be a reasonable proposal.

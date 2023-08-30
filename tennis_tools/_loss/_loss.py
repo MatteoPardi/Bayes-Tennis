@@ -12,7 +12,7 @@ from .. import scoring_systems
 
 class Loss:
     
-    def __init__ (self, regularization='L2', bandwidth=5.):
+    def __init__ (self, regularization='L2', bandwidth=1.77):
         
         self.terms = {'regularization': _get_regularization(regularization, bandwidth)}
         

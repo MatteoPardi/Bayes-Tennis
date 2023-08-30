@@ -487,7 +487,7 @@ print(tu.loss)
 ```
 
     Loss Function. Terms:
-    regularization: L2_Regularization(bandwidth=5.0)
+    regularization: L2_Regularization(bandwidth=1.77)
     mrdodo: LogLikelihoodTerm:
       scoring_system: 'MrDodo'
       n_samples: 649
@@ -510,37 +510,37 @@ tu.optimize()
     (tic)
     Optimization started. n_iter = 3000
      n 0: loss = 2229.3115234375
-     n 100: loss = 1654.361328125
-     n 200: loss = 1651.0430908203125
-     n 300: loss = 1650.776611328125
-     n 400: loss = 1650.7396240234375
-     n 500: loss = 1650.7330322265625
-     n 600: loss = 1650.7315673828125
-     n 700: loss = 1650.731201171875
-     n 800: loss = 1650.7310791015625
-     n 900: loss = 1650.7310791015625
-     n 1000: loss = 1650.7310791015625
-     n 1100: loss = 1650.73095703125
-     n 1200: loss = 1650.731201171875
-     n 1300: loss = 1650.7310791015625
-     n 1400: loss = 1650.73095703125
-     n 1500: loss = 1650.73095703125
-     n 1600: loss = 1650.73095703125
-     n 1700: loss = 1650.73095703125
-     n 1800: loss = 1650.73095703125
-     n 1900: loss = 1650.73095703125
-     n 2000: loss = 1650.7310791015625
-     n 2100: loss = 1650.7310791015625
-     n 2200: loss = 1650.7310791015625
-     n 2300: loss = 1650.7310791015625
-     n 2400: loss = 1650.7310791015625
-     n 2500: loss = 1650.7310791015625
-     n 2600: loss = 1650.7310791015625
-     n 2700: loss = 1650.7310791015625
-     n 2800: loss = 1650.7310791015625
-     n 2900: loss = 1650.7310791015625
-     n 3000: loss = 1650.7310791015625 (end)
-    (toc) 14.73 s
+     n 100: loss = 1789.1170654296875
+     n 200: loss = 1789.0960693359375
+     n 300: loss = 1789.0960693359375
+     n 400: loss = 1789.0960693359375
+     n 500: loss = 1789.09619140625
+     n 600: loss = 1789.0960693359375
+     n 700: loss = 1789.0960693359375
+     n 800: loss = 1789.09619140625
+     n 900: loss = 1789.0960693359375
+     n 1000: loss = 1789.0960693359375
+     n 1100: loss = 1789.0960693359375
+     n 1200: loss = 1789.09619140625
+     n 1300: loss = 1789.0960693359375
+     n 1400: loss = 1789.0960693359375
+     n 1500: loss = 1789.09619140625
+     n 1600: loss = 1789.0960693359375
+     n 1700: loss = 1789.0960693359375
+     n 1800: loss = 1789.0960693359375
+     n 1900: loss = 1789.0960693359375
+     n 2000: loss = 1789.0960693359375
+     n 2100: loss = 1789.0960693359375
+     n 2200: loss = 1789.0960693359375
+     n 2300: loss = 1789.0960693359375
+     n 2400: loss = 1789.0960693359375
+     n 2500: loss = 1789.09619140625
+     n 2600: loss = 1789.0960693359375
+     n 2700: loss = 1789.0960693359375
+     n 2800: loss = 1789.09619140625
+     n 2900: loss = 1789.0960693359375
+     n 3000: loss = 1789.0960693359375 (end)
+    (toc) 15.05 s
     
 
 ### Ranking (Optimized)
@@ -576,42 +576,42 @@ tu.ranking
   <tbody>
     <tr>
       <th>1</th>
-      <td>Salvatore Malaparte</td>
-      <td>106.692085</td>
-      <td>0</td>
-      <td>5</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Ottone Basadonna</td>
-      <td>106.272957</td>
-      <td>2</td>
-      <td>0</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>3</th>
       <td>Cirillo Pisaroni</td>
-      <td>105.739639</td>
+      <td>104.738472</td>
       <td>17</td>
       <td>3</td>
       <td>20</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>Gioacchino Flaiano</td>
-      <td>105.717369</td>
+      <th>2</th>
+      <td>Carlo Peano</td>
+      <td>104.313370</td>
+      <td>10</td>
       <td>0</td>
-      <td>2</td>
-      <td>2</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dionigi Vecellio</td>
+      <td>104.156761</td>
+      <td>17</td>
+      <td>0</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Piermaria Rossetti</td>
+      <td>103.415192</td>
+      <td>4</td>
+      <td>10</td>
+      <td>14</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Giuseppe Cavalcanti</td>
-      <td>105.717369</td>
-      <td>0</td>
+      <td>Ottone Basadonna</td>
+      <td>103.292984</td>
       <td>2</td>
+      <td>0</td>
       <td>2</td>
     </tr>
     <tr>
@@ -625,23 +625,23 @@ tu.ranking
     <tr>
       <th>184</th>
       <td>Domenico Cusano</td>
-      <td>93.604691</td>
+      <td>96.548134</td>
       <td>6</td>
       <td>3</td>
       <td>9</td>
     </tr>
     <tr>
       <th>185</th>
-      <td>Valerio Aporti</td>
-      <td>92.754433</td>
-      <td>3</td>
-      <td>4</td>
-      <td>7</td>
+      <td>Fiorino Semitecolo</td>
+      <td>96.547005</td>
+      <td>6</td>
+      <td>0</td>
+      <td>6</td>
     </tr>
     <tr>
       <th>186</th>
       <td>Lazzaro Luna</td>
-      <td>92.728943</td>
+      <td>96.243858</td>
       <td>3</td>
       <td>0</td>
       <td>3</td>
@@ -649,18 +649,18 @@ tu.ranking
     <tr>
       <th>187</th>
       <td>Gionata Gulotta</td>
-      <td>90.980530</td>
+      <td>95.844185</td>
       <td>3</td>
       <td>0</td>
       <td>3</td>
     </tr>
     <tr>
       <th>188</th>
-      <td>Ranieri Trapani</td>
-      <td>90.038269</td>
-      <td>0</td>
-      <td>2</td>
-      <td>2</td>
+      <td>Valerio Aporti</td>
+      <td>95.439522</td>
+      <td>3</td>
+      <td>4</td>
+      <td>7</td>
     </tr>
   </tbody>
 </table>
