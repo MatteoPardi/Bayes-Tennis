@@ -181,6 +181,7 @@ Here we present a new method not based on the 'you update when you play' rule, b
 ### The Model
 
 The model is very simple. Each player $j = 1, \dots, M$ has an ability $a_j \in \mathbb{R}$. A tennis match (let's say: player $A$ vs player $B$) is a sequence of independent points. Each point is described by a Bernoulli distribution with probability $\psi$, where $\psi$ is the probability that $A$ wins the point. $\psi$ depends from the players' abilities according to the following logistic-like formula:
+
 $$
 \psi = \frac{1}{2} + \frac{1}{\pi} \arctan \left( \frac{a_A - a_B}{10} \right) \ .
 $$
@@ -197,6 +198,7 @@ To interpret this formula the following table can be useful:
 | $10$       | $0.75$ |
 
 More or less, we can say that $|a_A - a_B| \geq 3$ makes the winner already determined (if A wins *a single point* 60% of the time...). The model completely defines the likelihood of a match score $s$
+
 $$
 p(s|a_A, a_B) \ ,
 $$
@@ -204,21 +206,25 @@ $$
 which can be derived analytically without particular difficulties (given the scoring system of the tournament we are interested to).
 
 Treating the database as a set of independent matches, with scores $s_i$ where $i = 1, \dots, N$, we can compute the (log)-likelihood of the data
+
 $$
 \log p(s_1, \dots, s_N | a_1, \dots, a_M) = \sum_{i=1}^{N} \log p (s_i | a_A^{(i)}, a_B^{(i)}) \ .
 $$
 
 To get the abilities from the database, we could find the maximum likelihood estimator of the abilities. Instead of doing this, it is a good practice to introduce a (log)-prior bayesian term as regularization. A heuristic reasonable proposal is a Gaussian distribution with mean 0 (to break the translational symmetry of the model during the optimization) and standard deviation $\sigma$. Now: it's easy to show analytically that, under that gaussian distribution, $\langle |a_A - a_B| \rangle = 2 \sigma / \sqrt{\pi}$. Looking at the $a_A - a_B$ vs $\psi$ table above, a heuristic reasonable proposal for $\langle |a_A - a_B| \rangle$ could be 2, from which it follows that $\sigma = \sqrt{\pi} \approx 1.77$ should be reasonable. Finally, we get the loss function $\mathcal{L}$ to minimize:
+
 $$
 \mathcal{L}(a_1, \dots, a_M) = -\log p(s_1, \dots, s_N | a_1, \dots, a_M) + \frac{1}{\pi} \sum_{j=1}^{M} {a_j}^2 \ .
 $$
 
 A simple idea to get the desidered ranking is
+
 $$
 \mathbf{\hat{a}} = \mathrm{argmin} \, \mathcal{L}(\mathbf{a}) \ ,
 $$
 
 but conventionally, to break the translational symmetry of the model in an useful way, we translate $\mathbf{\hat{a}}$ so that its median is 100: the definitive ranking $\mathbf{a}$ is then
+
 $$
 \mathbf{a} = \mathbf{\hat{a}} - \mathrm{median} (\mathbf{\hat{a}}) + 100 \ .
 $$
@@ -226,11 +232,13 @@ $$
 ##### Temporal Weights
 
 To take into consideration that older matches should carry less weight compared to the newer ones, we can do so by introducing *temporal weights* $w_i$ into the (log)-likelihood:
+
 $$
 \log p(s_1, \dots, s_N | a_1, \dots, a_M) := \sum_{i=1}^{N} w_i \log p (s_i | a_A^{(i)}, a_B^{(i)}) \ .
 $$
 
 A simple proposal for their values is
+
 $$
 w_i = 2^{t_i / \tau} \ ,
 $$
