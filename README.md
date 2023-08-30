@@ -2,169 +2,37 @@
 
 Let's say we have a database of tennis matches like the following:
 
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>players A</th>
-      <th>players B</th>
-      <th>score</th>
-      <th>tournament</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Donatello Luciani</td>
-      <td>Pellegrino Giovine</td>
-      <td>6-4 6-1</td>
-      <td>AICS 2023</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Lorenzo Bellomo, Matteo Pardi</td>
-      <td>Marcello Cibin, Pierluigi Pacomio</td>
-      <td>6-1 6-1</td>
-      <td>AICS 2023</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Pardi Marco</td>
-      <td>Lucio Conte</td>
-      <td>6-1 7-6</td>
-      <td>AICS 2023</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Calogero Battelli</td>
-      <td>Uberto Oliboni</td>
-      <td>6-0 6-4</td>
-      <td>AICS 2023</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Giuseppe Cavalcanti, Gioacchino Flaiano</td>
-      <td>Federico Gatto, Delfino Mozart</td>
-      <td>6-1 6-0</td>
-      <td>AICS 2023</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>379</th>
-      <td>Fulvio Zoppetti</td>
-      <td>Gianni Guarana</td>
-      <td>5-7 2-6</td>
-      <td>Mr. Dodo 22 - Fase Eliminatoria</td>
-    </tr>
-    <tr>
-      <th>380</th>
-      <td>Atenulf Solimena, Adriano Spinelli</td>
-      <td>Giacinto Orengo, Manuel Cannizzaro</td>
-      <td>5-7 3-6</td>
-      <td>Mr. Dodo 22 - Fase Eliminatoria</td>
-    </tr>
-    <tr>
-      <th>381</th>
-      <td>Gabriele Fantoni</td>
-      <td>Ennio Rizzoli</td>
-      <td>3-6 7-6 7-10</td>
-      <td>Mr. Dodo 22 - Fase Eliminatoria</td>
-    </tr>
-    <tr>
-      <th>382</th>
-      <td>Manuel Cannizzaro</td>
-      <td>Pasqual Dovara</td>
-      <td>6-3 7-6</td>
-      <td>Mr. Dodo 22 - Fase Eliminatoria</td>
-    </tr>
-    <tr>
-      <th>383</th>
-      <td>Donato Cattaneo, Sebastiano Alfieri</td>
-      <td>Ubaldo Ramazzotti, Gioffre Farina</td>
-      <td>6-3 6-3</td>
-      <td>Mr. Dodo 22 - Fase Eliminatoria</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+|      | players A                           | players B                             | score     | tournament                  |
+|------|------------------------------------|---------------------------------------|-----------|-----------------------------|
+| 0    | Donatello Luciani                  | Pellegrino Giovine                    | 6-4 6-1   | AICS 2023                   |
+| 1    | Lorenzo Bellomo, Matteo Pardi      | Marcello Cibin, Pierluigi Pacomio      | 6-1 6-1   | AICS 2023                   |
+| 2    | Pardi Marco                        | Lucio Conte                           | 6-1 7-6   | AICS 2023                   |
+| 3    | Calogero Battelli                  | Uberto Oliboni                        | 6-0 6-4   | AICS 2023                   |
+| 4    | Giuseppe Cavalcanti, Gioacchino Flaiano | Federico Gatto, Delfino Mozart     | 6-1 6-0   | AICS 2023                   |
+| ...  | ...                                | ...                                   | ...       | ...                         |
+| 379  | Fulvio Zoppetti                     | Gianni Guarana                        | 5-7 2-6   | Mr. Dodo 22 - Fase Eliminatoria |
+| 380  | Atenulf Solimena, Adriano Spinelli  | Giacinto Orengo, Manuel Cannizzaro    | 5-7 3-6   | Mr. Dodo 22 - Fase Eliminatoria |
+| 381  | Gabriele Fantoni                   | Ennio Rizzoli                         | 3-6 7-6 7-10 | Mr. Dodo 22 - Fase Eliminatoria |
+| 382  | Manuel Cannizzaro                  | Pasqual Dovara                        | 6-3 7-6   | Mr. Dodo 22 - Fase Eliminatoria |
+| 383  | Donato Cattaneo, Sebastiano Alfieri | Ubaldo Ramazzotti, Gioffre Farina   | 6-3 6-3   | Mr. Dodo 22 - Fase Eliminatoria |
+
 
 We would like to get a players' ranking of the form
 
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>player</th>
-      <th>ability</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1</th>
-      <td>Giuseppe Cavalcanti</td>
-      <td>106.1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Cirillo Pisaroni</td>
-      <td>105.2</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Gianluigi Caccianemico</td>
-      <td>104.9</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Dionigi Vecellio</td>
-      <td>104.7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Carlo Peano</td>
-      <td>104.5</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>201</th>
-      <td>Sandro Abba</td>
-      <td>95.4</td>
-    </tr>
-    <tr>
-      <th>202</th>
-      <td>Marcello Cibin</td>
-      <td>95.2</td>
-    </tr>
-    <tr>
-      <th>203</th>
-      <td>Lazzaro Luna</td>
-      <td>94.8</td>
-    </tr>
-    <tr>
-      <th>204</th>
-      <td>Gionata Gulotta</td>
-      <td>94.4</td>
-    </tr>
-    <tr>
-      <th>205</th>
-      <td>Valerio Aporti</td>
-      <td>93.2</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+|     | player                  | ability |
+|-----|-------------------------|---------|
+| 1   | Giuseppe Cavalcanti     | 106.1   |
+| 2   | Cirillo Pisaroni        | 105.2   |
+| 3   | Gianluigi Caccianemico  | 104.9   |
+| 4   | Dionigi Vecellio        | 104.7   |
+| 5   | Carlo Peano             | 104.5   |
+| ... | ...                     | ...     |
+| 201 | Sandro Abba             | 95.4    |
+| 202 | Marcello Cibin          | 95.2    |
+| 203 | Lazzaro Luna            | 94.8    |
+| 204 | Gionata Gulotta         | 94.4    |
+| 205 | Valerio Aporti          | 93.2    |
+
 
 Typical ranking methods are based on the 'you update when you play' rule:
 - each time a player plays a match its ability changes
