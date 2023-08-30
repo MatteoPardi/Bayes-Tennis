@@ -3,15 +3,6 @@
 Let's say we have a database of tennis matches like the following:
 
 
-```python
-from tennis_tools import TennisUniverse
-
-tu = TennisUniverse('data.csv')
-tu.df.reset_index()[['players A', 'players B', 'score', 'tournament']]
-```
-
-
-
 
 <div>
 <table border="1" class="dataframe">
@@ -109,7 +100,6 @@ tu.df.reset_index()[['players A', 'players B', 'score', 'tournament']]
 
 
 We would like to get a players' ranking of the form
-
 
 
 
