@@ -42,7 +42,7 @@ Traditional ranking methods are based on the 'you update when you play' rule:
 
 However, these methods have drawbacks that can be illustrated with examples:
 1. There are five players: A, B, C, D, E. Let's say A defeats B, and then B defeats C, D and E. Since B won 3 matches and A just one, B will have a greater ability respect to A. But this is not what we would like to have, since A defeats B... A should be considered stronger than B.
-2. Today A and B have the same ability, since they got similar results in their matches, played more or less with the same people. For a short period, A stops to play, while B continues. In this short period, B loses all matches he plays. This fact reveals that the ability of B was overrated: probably B had been lucky up to now in playing only against weak people. Thus, the ability of B decreases... but the ability of A remains the same. This is not what we would like to have, since we know that A and B should have similar abilities.
+2. Presently, A and B have the same ability, since they got similar results in their matches, played more or less with the same people. For a short period, A stops to play, while B continues. In this short period, B loses all matches he plays. This fact reveals that the ability of B was overrated: probably B had been lucky up to now in playing only against weak people. Thus, the ability of B decreases... but the ability of A remains the same. This is not what we would like to have, since we know that A and B should have similar abilities.
 
 To address these issues, a new method based on Bayesian statistics is introduced. The method leverages a simple mathematical model for tennis matches.
 
