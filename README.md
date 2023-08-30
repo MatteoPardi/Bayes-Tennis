@@ -114,27 +114,27 @@ We would like to get a players' ranking of the form
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>1</th>
       <td>Giuseppe Cavalcanti</td>
       <td>108.079536</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>2</th>
       <td>Gianluigi Caccianemico</td>
       <td>105.692780</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>3</th>
       <td>Cirillo Pisaroni</td>
       <td>105.672729</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>4</th>
       <td>Ottone Basadonna</td>
       <td>105.509888</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>5</th>
       <td>Dionigi Vecellio</td>
       <td>105.113510</td>
     </tr>
@@ -144,27 +144,27 @@ We would like to get a players' ranking of the form
       <td>...</td>
     </tr>
     <tr>
-      <th>200</th>
+      <th>201</th>
       <td>Nanni Lucchesi</td>
       <td>93.622917</td>
     </tr>
     <tr>
-      <th>201</th>
+      <th>202</th>
       <td>Marcello Cibin</td>
       <td>92.758682</td>
     </tr>
     <tr>
-      <th>202</th>
+      <th>203</th>
       <td>Ranieri Trapani</td>
       <td>92.602478</td>
     </tr>
     <tr>
-      <th>203</th>
+      <th>204</th>
       <td>Gionata Gulotta</td>
       <td>91.815338</td>
     </tr>
     <tr>
-      <th>204</th>
+      <th>205</th>
       <td>Valerio Aporti</td>
       <td>91.770103</td>
     </tr>
