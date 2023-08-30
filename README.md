@@ -178,7 +178,9 @@ There are several reasons not to trust this type of ranking methods. They can be
 
 Here we present a new method not based on the 'you update when you play' rule, but on rigorous bayesian statistics built on a simple mathematical model for tennis matches.
 
-### The Model
+***
+
+## The Model
 
 The model is very simple. Each player $j = 1, \dots, M$ has an ability $a_j \in \mathbb{R}$. A tennis match (let's say: player $A$ vs player $B$) is a sequence of independent points. Each point is described by a Bernoulli distribution with probability $\psi$, where $\psi$ is the probability that $A$ wins the point. $\psi$ depends from the players' abilities according to the following logistic-like formula:
 
@@ -244,3 +246,33 @@ w_i = 2^{t_i / \tau} \ ,
 $$
 
 where $\tau$ is the 'half time' of the exponential decay, and $t_i$ measures how much time has passed since the most recent match. $\tau = 10$ months could be a reasonable proposal.
+
+***
+
+## Quick guide to the code
+
+- Please look at `main.ipynb` for a quick use of the tool;
+- In the folder `tennis_tools`, the `README.md` and the notebook `quick_guide_notebook.ipynb` will introduce you the main functionalities of the tool;
+- In the folder `tennis_tools/scoring_system`, the `README.md` will guide you to create a new scoring system to use the tool for your custom tournament.
+
+## Contact Me
+
+For any other additional information, you can email me at matteopardi2@gmail.com
+
+## Copyright
+
+```
+Copyright (C) 2023, Matteo Pardi
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
