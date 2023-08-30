@@ -1,10 +1,6 @@
 # Bayesian Tennis Ranking
 
-</br>
-
-<img src="background_image.png">
-
-</br>
+![background_image.png](background_image.png)
 
 Let's consider a database of tennis matches as shown below:
 
