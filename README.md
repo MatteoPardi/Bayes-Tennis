@@ -92,6 +92,7 @@ To obtain the desired ranking, after the optimization the abilities are adjusted
 ##### Temporal Weights
 
 To account for the decreasing relevance of older matches, temporal weights $w_i$ are introduced into the log-likelihood:
+
 $$
 \log p(s_1, \dots, s_N | a_1, \dots, a_M) := \sum_{i=1}^{N} w_i \log p (s_i | a_A^{(i)}, a_B^{(i)}) \ .
 $$
