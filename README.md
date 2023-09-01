@@ -58,7 +58,7 @@ $$
 \psi = \frac{1}{2} + \frac{1}{\pi} \arctan \left( \frac{a_A - a_B}{10} \right) \ .
 $$
 
-The formula's interpretation is aided by the following table:
+In the case of a doubles match, the ability of a team will be defined as the mean of the players' abilities $a_A = (a'_A + a''_A)/2$. The formula's interpretation is aided by the following table:
 
 | $a_A - a_B$ | $\psi$ |
 |------------|--------|
