@@ -58,7 +58,7 @@ $$
 \psi = \frac{1}{2} + \frac{1}{\pi} \arctan \left( \frac{a_A - a_B}{10} \right) \ .
 $$
 
-In the case of a doubles match, the ability of a team will be defined as the mean of the players' abilities $a_A = (a'_A + a''_A)/2$. The formula's interpretation is aided by the following table:
+In the case of a doubles match, the ability of a team will be defined as the mean of its players' abilities $a_A = (a'_A + a''_A)/2$. The formula's interpretation is aided by the following table:
 
 | $a_A - a_B$ | $\psi$ |
 |------------|--------|
@@ -69,7 +69,7 @@ In the case of a doubles match, the ability of a team will be defined as the mea
 | $5$        | $0.65$ |
 | $10$       | $0.75$ |
 
-More or less, we can say that $|a_A - a_B| \geq 3$ makes the winner already determined (if A wins *a single point* 60% of the time...). The model defines the likelihood of a match score $s$
+More or less, we can say that $|a_A - a_B| \geq 3$ already determines the winner (if A wins *a single point* 60% of the time...). The model defines the likelihood of a match score $s$
 
 $$
 p(s|a_A, a_B) \ ,
@@ -102,7 +102,7 @@ $$
 A simple proposal for these weights is:
 
 $$
-w_i = 2^{t_i / \tau} \ ,
+w_i = 2^{- t_i / \tau} \ ,
 $$
 
 where $\tau$ represents the half-life of the exponential decay, and $t_i$ measures the time since the most recent match. A reasonable value for $\tau$ could be 10 months.
