@@ -1,5 +1,7 @@
 # Bayesian Tennis Ranking
 
+A personal project to help my amateur tennis team field the lineup and win tournaments.
+
 ![background_image.png](background_image.png)
 
 Let's consider a database of tennis matches as shown below:
