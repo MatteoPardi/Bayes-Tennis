@@ -41,19 +41,19 @@ class BasicBlock:
             self.device = device
             self._binom = self._binom.to(device)
         
-    def proba (self, score_A, score_B, p_point_A, p_sudden_death_A=None):
+    def proba (self, score_A, score_B, p_point_A, p_deciding_point_A=None):
     
         score_A = to_torch_tensor(score_A, th.long)
         score_B = to_torch_tensor(score_B, th.long)
         p = to_torch_tensor(p_point_A, th.float)
-        psd = p_sudden_death_A if p_sudden_death_A is not None else p
+        psd = p_deciding_point_A if p_deciding_point_A is not None else p
         psd = to_torch_tensor(psd, th.float)
         self.to(score_A.device)
         
         e1 = self.end - 1
         minmin = th.minimum(score_A, score_B)
         if self.max_advantages is None: pass
-        else: sudden_death_was_played = (minmin == e1+self.max_advantages)
+        else: deciding_point_was_played = (minmin == e1+self.max_advantages)
         # minmin = min(min(A,B), end-1)
         # maxmin = max(min(A,B), end-1)
         maxmin = minmin*1
@@ -65,20 +65,20 @@ class BasicBlock:
         else: 
             Awin = (score_A > score_B)
             return self._binom[minmin] * 2**(maxmin-e1) * ( \
-                   (~sudden_death_was_played) * p**score_A * (1-p)**score_B + \
-                   sudden_death_was_played * (p*(1-p))**maxmin * (Awin*psd + (~Awin)*(1-psd)) \
+                   (~deciding_point_was_played) * p**score_A * (1-p)**score_B + \
+                   deciding_point_was_played * (p*(1-p))**maxmin * (Awin*psd + (~Awin)*(1-psd)) \
                    )
         # Note: (score_A, score_B)=(0, 0) --> proba=1
         
-    def proba_A_wins (self, p_point_A, p_sudden_death_A=None):
+    def proba_A_wins (self, p_point_A, p_deciding_point_A=None):
     
         p = to_torch_tensor(p_point_A, th.float)
-        psd = p_sudden_death_A if p_sudden_death_A is not None else p
+        psd = p_deciding_point_A if p_deciding_point_A is not None else p
         psd = to_torch_tensor(psd, th.float)
         
         return self._proba_A_wins_without_advantages(p) + \
                self._proba_A_wins_during_regular_advantages(p) + \
-               self._proba_A_wins_at_sudden_death_point(p, psd)
+               self._proba_A_wins_at_deciding_point_point(p, psd)
     
     def _proba_A_wins_without_advantages(self, p_point_A):
 
@@ -100,12 +100,12 @@ class BasicBlock:
         else: 
             return self._binom[e1] * p**(e1+2) * (1-p)**e1 / (1-g)
     
-    def _proba_A_wins_at_sudden_death_point (self, p_point_A, p_sudden_death_A):
+    def _proba_A_wins_at_deciding_point_point (self, p_point_A, p_deciding_point_A):
         
         if self.max_advantages is None: return 0.
         else: 
             p = p_point_A
-            psd = p_sudden_death_A
+            psd = p_deciding_point_A
             e1 = self.end-1
             return self._binom[e1] * 2**self.max_advantages * \
                    (p*(1-p))**(e1+self.max_advantages) * psd
