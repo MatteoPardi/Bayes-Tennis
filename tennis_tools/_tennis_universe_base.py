@@ -170,7 +170,8 @@ class TennisUniverse_Base:
         for player in players:
             if player not in self._players: 
                 self._players[player] = {'idx': self.n_players, 'n_singles': 0, 'n_doubles': 0, \
-                                         'last_tournament': None, 'last_tournament_date': None}
+                                         'last_tournament': None, 'last_tournament_date': None, \
+                                         'last_tournament_dateTime': None}
                 self.n_players += 1   
                 
     def _update_players_n_singles_n_doubles (self, players, match_type):
@@ -180,11 +181,13 @@ class TennisUniverse_Base:
 
     def _update_players_last_tournament (self, players, tournament, date):
 
+        dateTime = datetime.strptime(date, '%b %Y')
         for player in players:
-            last_tournament_date = self._players[player]['last_tournament_date']
-            if last_tournament_date is None or last_tournament_date < date:
+            last_tournament_dateTime = self._players[player]['last_tournament_dateTime']
+            if last_tournament_dateTime is None or last_tournament_dateTime < dateTime:
                 self._players[player]['last_tournament'] = tournament
                 self._players[player]['last_tournament_date'] = date
+                self._players[player]['last_tournament_dateTime'] = dateTime
             
     def _players__from_dict_to_df (self):
         

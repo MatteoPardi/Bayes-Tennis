@@ -598,7 +598,7 @@ tu.optimize()
      n 800: loss = 1789.0960693359375
      n 900: loss = 1789.0960693359375
      n 1000: loss = 1789.0960693359375 (end)
-    (toc) 6.23 s
+    (toc) 5.03 s
     
 
 ### Ranking (Optimized)
