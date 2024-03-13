@@ -16,7 +16,7 @@ class TennisUniverse (TennisUniverse_Base):
         super().__init__(*paths)
         
     def optimize (self, 
-                  n_iter=3000, 
+                  n_iter=1000, 
                   lr_start=1e-1, 
                   lr_end=1e-3, 
                   half_time=10, 

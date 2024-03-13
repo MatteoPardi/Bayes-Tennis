@@ -31,7 +31,9 @@ class TennisUniverse_Base:
             'ability': [],
             'n_singles': [],
             'n_doubles': [],
-            'n_tot': []
+            'n_tot': [],
+            'last_tournament': [],
+            'last_tournament_date': []
         }
         self.loss = Loss()
         self.rejected = { # ~~> pd.DataFrame(index=['file','file_row'])
@@ -132,6 +134,7 @@ class TennisUniverse_Base:
         self._add_tournament_if_new(tournament_info.name)
         self._add_players_if_new(players)
         self._update_players_n_singles_n_doubles(players, match_type)
+        self._update_players_last_tournament(players, row['tournament'], date)
         players_idx = [self._players[player]['idx'] for player in players]
         if match_type == 'singles': players_idx = [players_idx[0]]*2 + [players_idx[1]]*2 # as a doubles
         self.loss.add(scoring_system, score, players_idx, passed_months)        
@@ -166,13 +169,22 @@ class TennisUniverse_Base:
         
         for player in players:
             if player not in self._players: 
-                self._players[player] = {'idx': self.n_players, 'n_singles': 0, 'n_doubles': 0}
+                self._players[player] = {'idx': self.n_players, 'n_singles': 0, 'n_doubles': 0, \
+                                         'last_tournament': None, 'last_tournament_date': None}
                 self.n_players += 1   
                 
     def _update_players_n_singles_n_doubles (self, players, match_type):
         
         n_what = 'n_' + match_type
         for player in players: self._players[player][n_what] += 1
+
+    def _update_players_last_tournament (self, players, tournament, date):
+
+        for player in players:
+            last_tournament_date = self._players[player]['last_tournament_date']
+            if last_tournament_date is None or last_tournament_date < date:
+                self._players[player]['last_tournament'] = tournament
+                self._players[player]['last_tournament_date'] = date
             
     def _players__from_dict_to_df (self):
         
@@ -192,6 +204,8 @@ class TennisUniverse_Base:
         self.ranking['n_singles'] = [self._players[player]['n_singles'] for player in self.ranking['player']]
         self.ranking['n_doubles'] = [self._players[player]['n_doubles'] for player in self.ranking['player']]
         self.ranking['n_tot'] = [ns+nd for ns, nd in zip(self.ranking['n_singles'], self.ranking['n_doubles'])]
+        self.ranking['last_tournament'] = [self._players[player]['last_tournament'] for player in self.ranking['player']]
+        self.ranking['last_tournament_date'] = [self._players[player]['last_tournament_date'] for player in self.ranking['player']]
         self.ranking['rank'] = list(range(1, self.n_players+1))
         self.ranking = pd.DataFrame(self.ranking)
         self.ranking.set_index('rank', inplace=True)
