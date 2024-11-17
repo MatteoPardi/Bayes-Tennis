@@ -1,7 +1,5 @@
 __pycache__
 .ipynb_checkpoints
 desktop.ini
-__old
-__work
-__work_main.ipynb
-__data
+/data/temp/
+/references
