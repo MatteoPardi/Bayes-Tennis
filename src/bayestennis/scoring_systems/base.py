@@ -1,4 +1,4 @@
-from typing import Optional, Union, Sequence
+from typing import Optional, Union, Sequence, Tuple
 import torch
 from scipy.special import binom
 from math import pi
@@ -54,10 +54,10 @@ class BasicScoreBlock:
     Attributes:
         score_end : int
             Score threshold to end the game.
-        n_max_advantages : int | None = None
-            Maximum number of advantages allowed. Defaults to None (infinite advantages).
-        device : torch.device = torch.device("cpu")
-            Device to store tensors on. Defaults to CPU.
+        n_max_advantages : int | None
+            Maximum number of advantages allowed. None represents infinite advantages.
+        device : torch.device
+            Device to store tensors on
 
     Methods:
         to(device)
@@ -67,6 +67,7 @@ class BasicScoreBlock:
         prob_teamA_wins_during_advantages_before_deciding_point(p_teamA_wins_point)
         prob_teamA_wins_at_deciding_point(p_teamA_wins_point, p_teamA_wins_deciding_point)
     """
+
 
     def __init__ (self, score_end: int, n_max_advantages: Optional[int] = None, device: torch.device = torch.device("cpu")) -> None:
         """
@@ -131,11 +132,11 @@ class BasicScoreBlock:
         """
 
         # As torch tensor
-        score_teamA = as_torch_tensor(score_teamA, torch.long)
-        score_teamB = as_torch_tensor(score_teamB, torch.long)
-        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float)
+        score_teamA = as_torch_tensor(score_teamA, torch.long, device=self.device)
+        score_teamB = as_torch_tensor(score_teamB, torch.long, device=self.device)
+        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float, device=self.device)
         if p_teamA_wins_deciding_point is not None:
-            p_teamA_wins_deciding_point = as_torch_tensor(p_teamA_wins_deciding_point, torch.float)
+            p_teamA_wins_deciding_point = as_torch_tensor(p_teamA_wins_deciding_point, torch.float, device=self.device)
         else:
             p_teamA_wins_deciding_point = p_teamA_wins_point
 
@@ -205,9 +206,9 @@ class BasicScoreBlock:
         """
 
         # As torch tensor
-        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float)
+        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float, device=self.device)
         if p_teamA_wins_deciding_point is not None:
-            p_teamA_wins_deciding_point = as_torch_tensor(p_teamA_wins_deciding_point, torch.float)
+            p_teamA_wins_deciding_point = as_torch_tensor(p_teamA_wins_deciding_point, torch.float, device=self.device)
         else:
             p_teamA_wins_deciding_point = p_teamA_wins_point
 
@@ -240,7 +241,7 @@ class BasicScoreBlock:
         """
 
         # As torch tensor
-        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float)        
+        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float, device=self.device)        
 
         # Checks
         assert p_teamA_wins_point.ndim == 1, "p_teamA_wins_point.shape must be (n_batches,)"
@@ -272,7 +273,7 @@ class BasicScoreBlock:
         """
 
         # As torch tensor
-        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float)
+        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float, device=self.device)
         
         # Checks
         if self.n_max_advantages == 0: return 0
@@ -313,9 +314,9 @@ class BasicScoreBlock:
         """
 
         # As torch tensor
-        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float)
+        p_teamA_wins_point = as_torch_tensor(p_teamA_wins_point, torch.float, device=self.device)
         if p_teamA_wins_deciding_point is not None:
-            p_teamA_wins_deciding_point = as_torch_tensor(p_teamA_wins_deciding_point, torch.float)
+            p_teamA_wins_deciding_point = as_torch_tensor(p_teamA_wins_deciding_point, torch.float, device=self.device)
         else:
             p_teamA_wins_deciding_point = p_teamA_wins_point        
         
@@ -332,10 +333,122 @@ class BasicScoreBlock:
         
         return p_teamA_wins_at_deciding_point
         
+
     def __repr__ (self):
         
         return f"BasiScoreBlock(score_end={self.score_end}, n_max_advantages={self.n_max_advantages})"
     
+
     def __str__ (self):
         
+        return repr(self)
+    
+
+class ScoringSystem:
+    """
+    Abstract base class for scoring systems.
+
+    Attributes:
+        device : torch.device
+            Device to store tensors on.
+
+    Methods:
+        check_score(score)
+        prob_this_score(score, abilities)
+        prob_teamA_wins(abilities)
+    """
+
+
+    def __init__ (self, device: torch.device = torch.device("cpu")) -> None:
+        """
+        A scoring system defines how to compute the probability of a given score.
+
+        Args:
+            device : torch.device
+                Device to store tensors on. Defaults to CPU.
+        """
+
+        self.device = device
+
+
+    def to (self, device: torch.device) -> None:
+        """
+        Move the internal tensors to a specified device.
+
+        Args:
+            device : torch.device
+                Device to move the tensors to
+        """
+
+        if self.device != device:
+            self.device = device
+
+        raise NotImplementedError
+
+
+    def check_score (self, score: list[int]) -> Tuple[bool, Union[list[int], None]]:
+        """
+        Check if the score is valid.
+
+        Args:
+            score : list[int] (n_score_elements,)
+                The score to check.
+
+        Returns:
+            is_valid : bool (1,)
+                True if the score is valid, False otherwise.
+            score : list[int] (*n_score_elements*,)
+                The score if the score is valid, None otherwise. Here the score format (i.e., the number of score elements)
+                might be slightly modified respect to the original one, aligning it with the scoring system convetions.
+                For example, some dummy zeros can be added.
+        """
+
+        raise NotImplementedError
+
+
+    def prob_this_score (self, score: Union[torch.Tensor, Sequence[int]], abilities: Union[torch.Tensor, Sequence[float]]) -> torch.Tensor:
+        """
+        Compute the probability of a given score.
+
+        Args:
+            score: torch.Tensor[torch.long] (n_score_elements,) or (n_batches, n_score_elements)
+                The score to compute the probability for.
+            abilities : torch.Tensor[torch.float] (n_batches, 2) or (n_batches, 4)
+                abilities of players. The last dimension must be in [2, 4]:
+                    - 2: match type = single
+                    - 4: match type = double
+
+        Returns:
+            p_this_score: torch.Tensor[torch.float] (n_batches,)
+                The probability of the given score.
+        """
+
+        raise NotImplementedError
+
+
+    def prob_teamA_wins (self, abilities: Union[torch.Tensor, Sequence[float]]) -> torch.Tensor:
+        """
+        Compute the probability of team A winning.
+
+        Args:
+            abilities : torch.Tensor[torch.float] (n_batches, 2) or (n_batches, 4)
+                abilities of players. The last dimension must be in [2, 4]:
+                    - 2: match type = single
+                    - 4: match type = double
+
+        Returns:
+            p_teamA_wins: torch.Tensor[torch.float] (n_batches,)
+                The probability of team A winning.
+        """
+
+        raise NotImplementedError
+
+
+    def __repr__ (self):
+
+        raise "Abstract ScoringSystem"
+
+
+    def __str__ (self):
+
         return repr(self)
