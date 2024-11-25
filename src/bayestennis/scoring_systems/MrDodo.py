@@ -71,25 +71,27 @@ class MrDodo (ScoringSystem):
         Usage example:
             mrdodo = MrDodo()
             score = [6, 1, 6, 2]
-            is_valid = mrdodo.check_score(score)
+            is_valid, normalized_score = mrdodo.check_score(score)
             score = [6, 1, 6, 2, 0, 0]
-            is_valid = mrdodo.check_score(score)
+            is_valid, normalized_score = mrdodo.check_score(score)
             score = [6, 3, 6, 7, 10, 6]
-            is_valid = mrdodo.check_score(score)
+            is_valid, normalized_score = mrdodo.check_score(score)
 
         Args:
             score : list[int] (n_score_elements,)
                 The score to check. n_score_elements must be 4 (no match tie-break) or 6 (with match tie-break).
                 The score elements represent the number of games won within each set.
                 The order of the elements is:
-                    [set_1_teamA, set_1_teamB, set_2_teamA, set_2_teamB, match_tie_break_teamA, match_tie_break_teamB].
+                    [set1_teamA, set1_teamB, set2_teamA, set2_teamB, match_tiebreak_teamA, match_tiebreak_teamB].
 
         Returns:
             is_valid : bool (1,)
                 True if the score is valid, False otherwise.
-            score : list[int] (6,)
-                The score if the score is valid, None otherwise. Here the score format is returned always with 6 elements,
-                including dummy zeros for match tie-break if not present.
+            normalized_score : list[int] (6,)
+                A list of 6 integers representing the normalized score, or None if is_valid is False.
+                The score is always normalized to 6 elements in the format:
+                    [set1_teamA, set1_teamB, set2_teamA, set2_teamB, match_tiebreak_teamA, match_tiebreak_teamB].
+                If the input score had 4 elements (no match tiebreak), [0, 0] is appended.
         """
 
         # Preprocess: add [0, 0] for match tie-break if not present

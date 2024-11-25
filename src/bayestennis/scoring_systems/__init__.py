@@ -1,3 +1,3 @@
 from . import base
-from .mrdodo import MrDodo
-from .toringo import Toringo
+from .MrDodo import MrDodo
+from .Toringo import Toringo
