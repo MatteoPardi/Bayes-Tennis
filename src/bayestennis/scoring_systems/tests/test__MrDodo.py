@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, sys.path[0]+"\\..\\..\\..")
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..', '..', '..')))  # path to bayestennis/../
 from bayestennis.scoring_systems import MrDodo
 
 
@@ -45,12 +46,12 @@ def main ():
     p_this_score = mrdodo.prob_this_score(score_valid, abilities_valid)
     p_teamA_wins = mrdodo.prob_teamA_wins(abilities_valid)
 
-    p_teamA_wins_100_100 = mrdodo.prob_teamA_wins([[100, 100]])
-    p_teamA_wins_100_101 = mrdodo.prob_teamA_wins([[100, 101]])
-    p_teamA_wins_100_102 = mrdodo.prob_teamA_wins([[100, 102]])
-    p_teamA_wins_100_103 = mrdodo.prob_teamA_wins([[100, 103]])
-    p_teamA_wins_100_104 = mrdodo.prob_teamA_wins([[100, 104]])
-    p_teamA_wins_100_105 = mrdodo.prob_teamA_wins([[100, 105]])
+    p_teamA_wins_100_100 = mrdodo.prob_teamA_wins([100, 100])
+    p_teamA_wins_100_101 = mrdodo.prob_teamA_wins([100, 101])
+    p_teamA_wins_100_102 = mrdodo.prob_teamA_wins([100, 102])
+    p_teamA_wins_100_103 = mrdodo.prob_teamA_wins([100, 103])
+    p_teamA_wins_100_104 = mrdodo.prob_teamA_wins([100, 104])
+    p_teamA_wins_100_105 = mrdodo.prob_teamA_wins([100, 105])
 
     BREAKPOINT_ME = 0
 

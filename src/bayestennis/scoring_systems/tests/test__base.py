@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, sys.path[0]+"\\..\\..\\..")
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..', '..', '..')))  # path to bayestennis/../
 from bayestennis.scoring_systems.base import prob_teamA_wins_point, BasicScoreBlock
 
 

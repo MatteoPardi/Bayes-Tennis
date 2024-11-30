@@ -68,10 +68,10 @@ class LogLikelihoodTerm:
 
         if self.n_matches == 0:
             return torch.tensor(0.0, device=self.device)
-        assert abilities_tensor.ndim() == 1
             
         # As torch tensor
         abilities_tensor = as_torch_tensor(abilities_tensor, torch.float).to(self.device)
+        assert abilities_tensor.ndim == 1, "abilities_tensor.shape must be (n_players,)"
 
         # Compute log-probabilities
         player_abilities = abilities_tensor[self.player_indices_tensor]
