@@ -351,6 +351,8 @@ class ScoringSystem:
     Attributes:
         device : torch.device
             Device to store tensors on.
+        n_score_elements : int
+            Number of elements in the score. This should be defined in subclasses.
 
     Methods:
         check_score(score)
@@ -369,6 +371,7 @@ class ScoringSystem:
         """
 
         self.device = device
+        self.n_score_elements = None  # This should be defined in subclasses
 
 
     def to (self, device: torch.device) -> None:

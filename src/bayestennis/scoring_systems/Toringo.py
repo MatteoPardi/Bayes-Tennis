@@ -1,7 +1,7 @@
 from typing import Sequence, Union
 import torch
 from .base import BasicScoreBlock, prob_teamA_wins_point, ScoringSystem
-from ..utils import as_torch_tensor
+from ..utils import as_torch_tensor, as_2dim_tensor
 
 
 class Toringo (ScoringSystem):
@@ -11,6 +11,8 @@ class Toringo (ScoringSystem):
     Attributes:
         device : torch.device
             Device to store tensors on.
+        n_score_elements : int
+            Number of elements in a score.
         game : BasicScoreBlock(score_end=4)
             Game score block.
         set_tie_break : BasicScoreBlock(score_end=7)
@@ -23,6 +25,7 @@ class Toringo (ScoringSystem):
             Match score block.
 
     Methods:
+        to(device)
         check_score(score)
         prob_this_score(score, abilities)
         prob_teamA_wins(abilities)
@@ -39,6 +42,7 @@ class Toringo (ScoringSystem):
         """
 
         self.device = device
+        self.n_score_elements = 6
         self.game = BasicScoreBlock(score_end=4, device=device)
         self.set_tie_break = BasicScoreBlock(score_end=7, device=device)
         self.set = BasicScoreBlock(score_end=6, n_max_advantages=1, device=device)
@@ -78,8 +82,8 @@ class Toringo (ScoringSystem):
             is_valid = toringo.check_score(score)
 
         Args:
-            score : list[int] (n_score_elements,)
-                The score to check. n_score_elements must be 4 (no match tie-break) or 6 (with match tie-break).
+            score : list[int] (n_elements,)
+                The score to check. n_elements must be 4 (no match tie-break) or 6 (with match tie-break).
                 The score elements represent the number of games won within each set.
                 The order of the elements is:
                     [set_1_teamA, set_1_teamB, set_2_teamA, set_2_teamB, match_tie_break_teamA, match_tie_break_teamB].
@@ -87,9 +91,11 @@ class Toringo (ScoringSystem):
         Returns:
             is_valid : bool (1,)
                 True if the score is valid, False otherwise.
-            score : list[int] (6,)
-                The score if the score is valid, None otherwise. Here the score format is returned always with 6 elements,
-                including dummy zeros for match tie-break if not present.
+            score : list[int] (n_score_elements,)
+                A list of 6 integers representing the normalized score, or None if is_valid is False.
+                The score is always normalized to 6 elements in the format:
+                    [set1_teamA, set1_teamB, set2_teamA, set2_teamB, match_tiebreak_teamA, match_tiebreak_teamB].
+                If the input score had 4 elements (no match tiebreak), [0, 0] is appended.
         """
 
         # Preprocess: add [0, 0] for match tie-break if not present
@@ -123,7 +129,7 @@ class Toringo (ScoringSystem):
         Compute the probability of a given score.
 
         Args:
-            score: torch.Tensor[torch.long] (n_score_elements,) or (n_batches, n_score_elements)
+            score: torch.Tensor[torch.long] (n_batches, n_score_elements)
                 The score to compute the probability for.
                 n_score_elements must be 6. See check_score method for details.
             abilities : torch.Tensor[torch.float] (n_batches, 2) or (n_batches, 4)
@@ -136,13 +142,13 @@ class Toringo (ScoringSystem):
                 The probability of the given score.
         """
 
-        # As torch tensors
-        score = as_torch_tensor(score, torch.long, device=self.device)
-        abilities = as_torch_tensor(abilities, torch.float, device=self.device)
+        # As 2D torch tensors
+        score = as_2dim_tensor(as_torch_tensor(score, torch.long, device=self.device))
+        abilities = as_2dim_tensor(as_torch_tensor(abilities, torch.float, device=self.device))
 
         # Checks
-        if score.shape[-1] != 6:
-            raise Exception("score.shape[-1] must be 6")
+        if score.shape[-1] != self.n_score_elements:
+            raise Exception(f"score.shape[-1] must be {self.n_score_elements}")
 
         # Compute utility probabilities
         p_teamA_wins_point = prob_teamA_wins_point(abilities)
@@ -151,9 +157,9 @@ class Toringo (ScoringSystem):
 
         # Compute probability of this score
         p_this_score = \
-            self.set.prob_this_score(score[..., 0], score[..., 1], p_teamA_wins_game, p_teamA_wins_set_tie_break) * \
-            self.set.prob_this_score(score[..., 2], score[..., 3], p_teamA_wins_game, p_teamA_wins_set_tie_break) * \
-            self.match_tie_break.prob_this_score(score[..., 4], score[..., 5], p_teamA_wins_point)
+            self.set.prob_this_score(score[:, 0], score[:, 1], p_teamA_wins_game, p_teamA_wins_set_tie_break) * \
+            self.set.prob_this_score(score[:, 2], score[:, 3], p_teamA_wins_game, p_teamA_wins_set_tie_break) * \
+            self.match_tie_break.prob_this_score(score[:, 4], score[:, 5], p_teamA_wins_point)
 
         return p_this_score
 
@@ -173,8 +179,8 @@ class Toringo (ScoringSystem):
                 The probability of team A winning.
         """
 
-        # As torch tensors
-        abilities = as_torch_tensor(abilities, torch.float, device=self.device)
+        # As 2D torch tensors
+        abilities = as_2dim_tensor(as_torch_tensor(abilities, torch.float, device=self.device))
 
         # Compute utility probabilities
         p_teamA_wins_point = prob_teamA_wins_point(abilities)
@@ -243,7 +249,8 @@ class Toringo (ScoringSystem):
     def __repr__(self):
 
         list_of_str = [
-            "Toringo scoring system:",
+            f"{self.__class__.__name__} scoring system:",
+            f"  n_score_elements: {self.n_score_elements}",
             f"  Game: {repr(self.game)}",
             f"  TieBreak(Set): {repr(self.set_tie_break)}",
             f"  Set: {repr(self.set)}",
