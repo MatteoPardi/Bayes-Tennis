@@ -1,6 +1,7 @@
 import torch
 from .utils import as_torch_tensor, as_2dim_tensor
-
+from typing import Union, Sequence
+from .scoring_systems.base import ScoringSystem
 
 class LogLikelihoodTerm:
     """
@@ -31,7 +32,7 @@ class LogLikelihoodTerm:
     """
 
 
-    def __init__ (self, scoring_system, device='cpu'):
+    def __init__ (self, scoring_system: ScoringSystem, device: Union[str, torch.device] = 'cpu') -> None:
         """
         Initialize the LogLikelihoodTerm with a scoring system and device.
 
@@ -50,7 +51,7 @@ class LogLikelihoodTerm:
         self.n_matches = 0
 
 
-    def __call__ (self, abilities_tensor):  
+    def __call__ (self, abilities_tensor: torch.Tensor) -> torch.Tensor:  
         """
         Compute the log-likelihood for a set of player abilities.
 
@@ -67,6 +68,7 @@ class LogLikelihoodTerm:
 
         if self.n_matches == 0:
             return torch.tensor(0.0, device=self.device)
+        assert abilities_tensor.ndim() == 1
             
         # As torch tensor
         abilities_tensor = as_torch_tensor(abilities_tensor, torch.float).to(self.device)
@@ -82,7 +84,7 @@ class LogLikelihoodTerm:
         return log_likelihood_term
 
 
-    def add (self, score, player_indices, weight):
+    def add (self, score: Union[torch.Tensor, Sequence], player_indices: Union[torch.Tensor, Sequence], weight: Union[torch.Tensor, Sequence]) -> None:
         """
         Add new match data to the internal tensors.
 
@@ -110,7 +112,7 @@ class LogLikelihoodTerm:
         self.n_matches = self.score_tensor.shape[0]
 
 
-    def to (self, device):
+    def to (self, device: torch.device) -> None:
         """
         Move tensors to the specified device.
 
