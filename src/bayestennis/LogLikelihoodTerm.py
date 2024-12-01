@@ -61,7 +61,7 @@ class LogLikelihoodTerm:
                 abilities_tensor[i] is the ability of the i-th player.
 
         Returns:
-            log_likelihood_term : torch.Tensor (1,)
+            log_likelihood_term : torch.Tensor (scalar)
                 The log-likelihood term. This is the sum of log-probabilities
                 for each match weighted by the corresponding weight.
         """
@@ -70,7 +70,7 @@ class LogLikelihoodTerm:
             return torch.tensor(0.0, device=self.device)
             
         # As torch tensor
-        abilities_tensor = as_torch_tensor(abilities_tensor, torch.float).to(self.device)
+        abilities_tensor = as_torch_tensor(abilities_tensor, torch.float, device=self.device)
         assert abilities_tensor.ndim == 1, "abilities_tensor.shape must be (n_players,)"
 
         # Compute log-probabilities
@@ -89,11 +89,11 @@ class LogLikelihoodTerm:
         Add new match data to the internal tensors.
 
         Args:
-            score : torch.Tensor or array-like
+            score : torch.Tensor or array-like (n_matches, n_score_elements) or (n_matches,)
                 The scores for the new matches.
-            player_indices : torch.Tensor or array-like
+            player_indices : torch.Tensor or array-like (n_matches, 4) or (4,)
                 The player indices for the new matches.
-            weight : torch.Tensor or array-like
+            weight : torch.Tensor or array-like (n_matches,) or scalar
                 The weights for the new matches.
         """
 
