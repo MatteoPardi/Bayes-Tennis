@@ -1,14 +1,14 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..', '..')))  # path to bayestennis/../
-from bayestennis.TennisDataFrame import TennisDataFrame
+from bayestennis.create_TennisDataFrame import create_TennisDataFrame
 
 
 def main ():
 
     BREAKPOINT_ME = 0
 
-    tdf = TennisDataFrame()
+    tdf = create_TennisDataFrame()
     tdf['id_match'] = [1, 2, 3]
     tdf['file_name'] = ['file1', 'file2', 'file3']
 

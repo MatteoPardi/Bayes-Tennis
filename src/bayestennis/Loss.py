@@ -3,7 +3,6 @@ from .LogLikelihoodTerm import LogLikelihoodTerm
 from .utils import as_torch_tensor
 from . import scoring_systems
 from math import pi
-import sys
 from typing import Union, Sequence
 
 

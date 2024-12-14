@@ -3,6 +3,7 @@ from .utils import as_torch_tensor, as_2dim_tensor
 from typing import Union, Sequence
 from .scoring_systems.base import ScoringSystem
 
+
 class LogLikelihoodTerm:
     """
     LogLikelihoodTerm represents a log-likelihood computation for a given scoring system.
