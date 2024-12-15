@@ -1,6 +1,6 @@
 import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..', '..', '..')))  # path to bayestennis/../
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))  # add path/to/bayestennis/../ to sys.path
 from bayestennis.scoring_systems import MrDodo
 
 
@@ -18,16 +18,16 @@ def main ():
     score = [
         [6, 1, 6, 2],
         [6, 3, 6, 7],
-        [6, 3, 6, 7, 10, 6],
+        [6, 3, 6, 7, 6, 10],
         [6, 3, 5, 3],
     ]
 
     mrdodo = MrDodo()
 
-    isValid1, score1 = mrdodo.check_score(score[0])
-    isValid2, score2 = mrdodo.check_score(score[1])
-    isValid3, score3 = mrdodo.check_score(score[2])
-    isValid4, score4 = mrdodo.check_score(score[3])
+    isValid1, score1, winner1 = mrdodo.process_score(score[0])
+    isValid2, score2, winner2 = mrdodo.process_score(score[1])
+    isValid3, score3, winner3 = mrdodo.process_score(score[2])
+    isValid4, score4, winner4 = mrdodo.process_score(score[3])
 
     abilities_valid = [
         [89, 93],
@@ -40,7 +40,7 @@ def main ():
         [6, 1, 6, 2, 0, 0],
         [6, 3, 7, 6, 0, 0],
         [6, 3, 6, 7, 10, 6],
-        [6, 3, 7, 6, 13, 11],
+        [6, 3, 1, 6, 11, 13],
     ]
 
     p_this_score = mrdodo.prob_this_score(score_valid, abilities_valid)

@@ -43,7 +43,7 @@ class MySystem (ScoringSystem):
             self.set.to(device)
             # Move other blocks...
 
-    def check_score (self, score: list[int]):
+    def process_score (self, score: list[int]):
         # Implement score validation
         pass
 
@@ -77,7 +77,7 @@ scoring = MrDodo()
 
 # Check if a score is valid
 score = [6, 4, 6, 2]  # Two sets: 6-4, 6-2
-is_valid, normalized_score = scoring.check_score(score)
+is_valid, normalized_score, winner_team = scoring.process_score(score)
 
 # ...
 ```
@@ -92,7 +92,7 @@ is_valid, normalized_score = scoring.check_score(score)
 
 ### ScoringSystem
 Abstract base class with required methods:
-- `check_score()`: Validates score format and values
+- `process_score()`: Validates score format and values, and compute normalized score and winner team
 - `prob_this_score()`: Calculates probability of a specific score
 - `prob_teamA_wins()`: Calculates overall win probability
 - `to()`: Moves internal tensors to specified device

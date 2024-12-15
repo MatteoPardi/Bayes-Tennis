@@ -355,7 +355,7 @@ class ScoringSystem:
             Number of elements in the score. This should be defined in subclasses.
 
     Methods:
-        check_score(score)
+        process_score(score)
         prob_this_score(score, abilities)
         prob_teamA_wins(abilities)
     """
@@ -389,21 +389,30 @@ class ScoringSystem:
         raise NotImplementedError
 
 
-    def check_score (self, score: list[int]) -> Tuple[bool, Union[list[int], None]]:
+    def process_score (self, score: list[int]) -> Tuple[bool, Union[list[int], None], str]:
         """
-        Check if the score is valid.
+        Check if the score is valid, and get the normalized score and the winner team.
+
+        Usage example:
+            score = [6, 1, 6, 2]
+            is_valid, normalized_score, winner_team = mrdodo.process_score(score)
+            # is_valid = True
+            # normalized_score = [6, 1, 6, 2, 0, 0]
+            # winner_team = "Team A"
 
         Args:
-            score : list[int] (n_score_elements,)
-                The score to check.
+            score : list[int] (n_elements,)
+                The score to process.
 
         Returns:
-            is_valid : bool (1,)
+            is_valid : bool
                 True if the score is valid, False otherwise.
-            score : list[int] (*n_score_elements*,)
-                The score if the score is valid, None otherwise. Here the score format (i.e., the number of score elements)
-                might be slightly modified respect to the original one, aligning it with the scoring system convetions.
-                For example, some dummy zeros can be added.
+            normalized_score : list[int] (n_score_elements,)
+                The normalized score if the score is valid, None otherwise. The normalized score is
+                the score re-formatted to have n_score_elements elements, aligning it with the scoring
+                system convetions. Typically, some dummy zeros can be added at the end.
+            winner_team : str
+                The team that won the match. "Team A" or "Team B", or None if is_valid is False.
         """
 
         raise NotImplementedError

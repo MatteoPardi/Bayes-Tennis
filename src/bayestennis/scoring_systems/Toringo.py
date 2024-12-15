@@ -26,7 +26,7 @@ class Toringo (ScoringSystem):
 
     Methods:
         to(device)
-        check_score(score)
+        process_score(score)
         prob_this_score(score, abilities)
         prob_teamA_wins(abilities)
     """
@@ -68,18 +68,18 @@ class Toringo (ScoringSystem):
             self.match.to(device)
 
     
-    def check_score (self, score: list[int]):
+    def process_score (self, score: list[int]):
         """
-        Check if the score is valid.
+        Check if the score is valid, and get the normalized score and the winner team.
 
         Usage example:
             toringo = Toringo()
             score = [6, 1, 6, 2]
-            is_valid = toringo.check_score(score)
+            is_valid, normalized_score, winner_team = toringo.process_score(score)
             score = [6, 1, 6, 2, 0, 0]
-            is_valid = toringo.check_score(score)
+            is_valid, normalized_score, winner_team = toringo.process_score(score)
             score = [6, 3, 6, 7, 10, 6]
-            is_valid = toringo.check_score(score)
+            is_valid, normalized_score, winner_team = toringo.process_score(score)
 
         Args:
             score : list[int] (n_elements,)
@@ -89,39 +89,41 @@ class Toringo (ScoringSystem):
                     [set_1_teamA, set_1_teamB, set_2_teamA, set_2_teamB, match_tie_break_teamA, match_tie_break_teamB].
 
         Returns:
-            is_valid : bool (1,)
+            is_valid : bool
                 True if the score is valid, False otherwise.
-            score : list[int] (n_score_elements,)
+            normalized_score : list[int] (n_score_elements,)
                 A list of 6 integers representing the normalized score, or None if is_valid is False.
                 The score is always normalized to 6 elements in the format:
                     [set1_teamA, set1_teamB, set2_teamA, set2_teamB, match_tiebreak_teamA, match_tiebreak_teamB].
                 If the input score had 4 elements (no match tiebreak), [0, 0] is appended.
+            winner_team : str
+                The team that won the match. "Team A" or "Team B", or None if is_valid is False.
         """
 
         # Preprocess: add [0, 0] for match tie-break if not present
-        if len(score) == 4: score += [0,0]
-        if len(score) != 6: return False
+        if len(score) == 4: score += [0, 0]
+        if len(score) != 6: return False, None, None
 
         # Get result strings
         set_1_result_str = self._get_result_str_from_score_set(score[0], score[1])
         if set_1_result_str is None:
-            return False, None
+            return False, None, None
         set_2_result_str = self._get_result_str_from_score_set(score[2], score[3])
         if set_2_result_str is None:
-            return False, None
+            return False, None, None
         match_tie_break_result_str = self._get_result_str_from_score_match_tie_break(score[4], score[5])
         if match_tie_break_result_str is None:
-            return False, None
+            return False, None, None
         
         # Determine if the score is valid and return the score
         list_result_str = [set_1_result_str, set_2_result_str, match_tie_break_result_str]   
-        if list_result_str == ['A win', 'A win', 'no tie break']: return True, score
-        if list_result_str == ['B win', 'B win', 'no tie break']: return True, score
-        if list_result_str == ['A win', 'B win', 'A win']: return True, score
-        if list_result_str == ['A win', 'B win', 'B win']: return True, score
-        if list_result_str == ['B win', 'A win', 'A win']: return True, score
-        if list_result_str == ['B win', 'A win', 'B win']: return True, score
-        return False, None
+        if list_result_str == ['A win', 'A win', 'no tie break']: return True, score, 'Team A'
+        if list_result_str == ['B win', 'B win', 'no tie break']: return True, score, 'Team B'
+        if list_result_str == ['A win', 'B win', 'A win']: return True, score, 'Team A'
+        if list_result_str == ['A win', 'B win', 'B win']: return True, score, 'Team B'
+        if list_result_str == ['B win', 'A win', 'A win']: return True, score, 'Team A'
+        if list_result_str == ['B win', 'A win', 'B win']: return True, score, 'Team B'
+        return False, None, None
 
 
     def prob_this_score (self, score: Union[torch.Tensor, Sequence[int]], abilities: Union[torch.Tensor, Sequence[float]]) -> torch.Tensor:
@@ -131,7 +133,7 @@ class Toringo (ScoringSystem):
         Args:
             score: torch.Tensor[torch.long] (n_batches, n_score_elements)
                 The score to compute the probability for.
-                n_score_elements must be 6. See check_score method for details.
+                n_score_elements must be 6. See process_score method for details.
             abilities : torch.Tensor[torch.float] (n_batches, 2) or (n_batches, 4)
                 abilities of players. The last dimension must be in [2, 4]:
                     - 2: match type = single

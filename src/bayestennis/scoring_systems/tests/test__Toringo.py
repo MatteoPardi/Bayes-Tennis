@@ -1,6 +1,6 @@
 import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..', '..', '..')))  # path to bayestennis/../
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))  # add path/to/bayestennis/../ to sys.path
 from bayestennis.scoring_systems import Toringo
 
 
@@ -24,10 +24,10 @@ def main ():
 
     toringo = Toringo()
 
-    isValid1, score1 = toringo.check_score(score[0])
-    isValid2, score2 = toringo.check_score(score[1])
-    isValid3, score3 = toringo.check_score(score[2])
-    isValid4, score4 = toringo.check_score(score[3])
+    isValid1, score1, winner1 = toringo.process_score(score[0])
+    isValid2, score2, winner2 = toringo.process_score(score[1])
+    isValid3, score3, winner3 = toringo.process_score(score[2])
+    isValid4, score4, winner4 = toringo.process_score(score[3])
 
     abilities_valid = [
         [89, 93],

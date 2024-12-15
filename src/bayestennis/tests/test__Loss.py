@@ -1,6 +1,6 @@
 import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..', '..')))  # path to bayestennis/../
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # add path/to/bayestennis/../ to sys.path
 import torch
 from bayestennis.Loss import Loss
 

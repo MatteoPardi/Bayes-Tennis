@@ -23,6 +23,7 @@ def create_TennisDataFrame ()-> TennisDataFrame:
             - tournament: Name of the tournament.
             - scoring_system: Name of the scoring system.
             - date: Date of the match.
+            - elapsed_days: Number of days elapsed since the match date (relative to now).
             - log_likelihood_weight: Weight associated with the match for log-likelihood computation.
             - id_teamA_player1: Unique identifier for player 1 in team A.
             - teamA_player1_name: Name of player 1 in team A.
@@ -55,6 +56,7 @@ def create_TennisDataFrame ()-> TennisDataFrame:
         'tournament',
         'scoring_system',
         'date',
+        'elapsed_days',
         'log_likelihood_weight',
         'id_teamA_player1',
         'teamA_player1_name',
