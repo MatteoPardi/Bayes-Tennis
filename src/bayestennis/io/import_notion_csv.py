@@ -1,4 +1,3 @@
-from ..create_TennisDataFrame import create_TennisDataFrame
 from .. import scoring_systems
 import pandas as pd
 from typing import TypeAlias, Tuple
@@ -141,13 +140,13 @@ def get_tdf_row_from_df_row (df_row: pd.Series) -> pd.Series:
     
     # Assign match type
     if len(players_teamA) == 1:
-        tdf_row['match_type'] = 'singles'
+        tdf_row['match_type'] = 'single'
         tdf_row['teamA_player1_name'] = players_teamA[0]
         tdf_row['teamA_player2_name'] = None
         tdf_row['teamB_player1_name'] = players_teamB[0]
         tdf_row['teamB_player2_name'] = None
     else:
-        tdf_row['match_type'] = 'doubles'
+        tdf_row['match_type'] = 'double'
         tdf_row['teamA_player1_name'] = players_teamA[0]
         tdf_row['teamA_player2_name'] = players_teamA[1]
         tdf_row['teamB_player1_name'] = players_teamB[0]

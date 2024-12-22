@@ -90,7 +90,7 @@ class LogLikelihoodTerm:
         Add new match data to the internal tensors.
 
         Args:
-            score : torch.Tensor or array-like (n_matches, n_score_elements) or (n_matches,)
+            score : torch.Tensor or array-like (n_matches, n_score_elements) or (n_score_elements,)
                 The scores for the new matches.
             player_indices : torch.Tensor or array-like (n_matches, 4) or (4,)
                 The player indices for the new matches.

@@ -161,8 +161,8 @@ class BasicScoreBlock:
         maxmin = minmin*1
         if self.n_max_advantages is None: pass
         else: deciding_point_was_played = (minmin == e1+self.n_max_advantages)
-        minmin[minmin > e1] = e1
-        maxmin[maxmin < e1] = e1
+        minmin = torch.where(minmin > e1, e1, minmin)
+        maxmin = torch.where(maxmin < e1, e1, maxmin)
 
         # Compute probability of the input score
         # Note: (score_teamA, score_teamB)=(0, 0) --> prob_this_score=1
@@ -248,15 +248,14 @@ class BasicScoreBlock:
 
         # Compute probability of team A winning without advantages, summing over all possible scores
         score_teamA = torch.full_like(p_teamA_wins_point, fill_value=self.score_end, dtype=torch.long)
-        score_teamB = torch.empty_like(p_teamA_wins_point, dtype=torch.long)
-        p_teamA_wins_without_advantages = torch.zeros_like(p_teamA_wins_point)
+        p_teamA_wins_without_advantages = torch.zeros_like(p_teamA_wins_point, dtype=torch.float)
         for i_score in range(self.score_end-1):
-
-            score_teamB[:] = i_score
+            score_teamB = torch.full_like(p_teamA_wins_point, fill_value=i_score, dtype=torch.long)
             p_this_score = self.prob_this_score(score_teamA, score_teamB, p_teamA_wins_point)
-            p_teamA_wins_without_advantages += p_this_score
+            p_teamA_wins_without_advantages = p_teamA_wins_without_advantages + p_this_score
 
         return p_teamA_wins_without_advantages
+        
     
 
     def prob_teamA_wins_during_advantages_before_deciding_point (self, p_teamA_wins_point: Union[torch.Tensor, Sequence[float]]) -> torch.Tensor:

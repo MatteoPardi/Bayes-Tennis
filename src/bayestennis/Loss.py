@@ -99,7 +99,7 @@ class Loss:
         Args:
             scoring_system_name : str
                 Name of the scoring system to add data to.
-            score : torch.Tensor or array-like (n_matches, n_score_elements) or (n_matches,)
+            score : torch.Tensor or array-like (n_matches, n_score_elements) or (n_score_elements,)
                 Scores for the new matches.
             player_indices : torch.Tensor or array-like (n_matches, 4) or (4,)
                 Player indices for the new matches.

@@ -4,12 +4,12 @@ from typing import TypeAlias
 TennisDataFrame: TypeAlias = pd.DataFrame
 
 
-def create_TennisDataFrame ()-> TennisDataFrame:
+def init_TennisDataFrame () -> TennisDataFrame:
     """
     This function returns an empty TennisDataFrame.
 
     Usage example:
-        tdf = create_TennisDataFrame()
+        tdf = init_TennisDataFrame()
     
     Description:
         A TennisDataFrame is a pandas DataFrame with the following columns:
