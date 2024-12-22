@@ -161,8 +161,8 @@ class BasicScoreBlock:
         maxmin = minmin*1
         if self.n_max_advantages is None: pass
         else: deciding_point_was_played = (minmin == e1+self.n_max_advantages)
-        minmin = torch.where(minmin > e1, e1, minmin)
-        maxmin = torch.where(maxmin < e1, e1, maxmin)
+        minmin[minmin > e1] = e1 
+        maxmin[maxmin < e1] = e1
 
         # Compute probability of the input score
         # Note: (score_teamA, score_teamB)=(0, 0) --> prob_this_score=1

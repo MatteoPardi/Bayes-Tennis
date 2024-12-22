@@ -28,7 +28,8 @@ class TennisUniverse:
     Methods:
         get_playersDataFrame_from_tennisDataFrame(tennisDataFrame)
         get_loss_from_tennisDataFrame(tennisDataFrame)
-        optimize(TBD)
+        optimize(n_iter=1000, lr_start=1e-1, lr_end=1e-3, verbose=100)
+        to(device)
 
     Structure description:
         TennisDataFrame
@@ -67,6 +68,20 @@ class TennisUniverse:
         self.loss = self.get_loss_from_tennisDataFrame(self.tennisDataFrame)
 
         self.loss.to(self.device)
+
+    
+    def to (self, device: Union[str, torch.device]) -> None:
+        """
+        Move tensors to the specified device.
+
+        Args:
+            device : str or torch.device
+                Device to move tensors to.
+        """
+
+        if self.device != device:
+            self.device = torch.device(device)
+            self.loss.to(device)
 
 
     def get_playersDataFrame_from_tennisDataFrame(self, tdf: TennisDataFrame) -> PlayersDataFrame:
@@ -181,10 +196,6 @@ class TennisUniverse:
                 DataFrame containing iteration indices and corresponding loss values.
         """
 
-        # DEBUG
-        #torch.autograd.set_detect_anomaly(True)
-        # DEBUG
-
         # Ensure CUDA availability if specified
         if self.device.type == 'cuda' and not torch.cuda.is_available():
             raise Exception("Unable to use CUDA: CUDA is not available")
@@ -244,7 +255,7 @@ class TennisUniverse:
         self.playersDataFrame['ability'] = self.playersDataFrame['id_player'].map(
             lambda id_player: abilities_numpy[id_player]
         )
-        self.playersDataFrame['rank'] = self.playersDataFrame['ability'].rank(ascending=False)
+        self.playersDataFrame['rank'] = self.playersDataFrame['ability'].rank(ascending=False).astype(int)
 
         # Convert optimization logs to DataFrame
         optimization_info_df = pd.DataFrame(optimization_info)

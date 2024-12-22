@@ -194,6 +194,7 @@ class L1_Regularization:
             device : torch.device
                 Device to move tensors to.
         """
+        
         self.device = device
 
 

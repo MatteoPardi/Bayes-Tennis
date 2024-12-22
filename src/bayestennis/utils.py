@@ -27,7 +27,7 @@ def as_torch_tensor (x: Any, torch_dtype: torch.dtype, device: torch.device = to
         if x.dtype == torch_dtype and x.device == device:
             return x
         else:
-            return x.to(torch_dtype, device=device)
+            return x.to(dtype=torch_dtype, device=device)
     else: 
         return torch.tensor(x, dtype=torch_dtype, device=device)
 

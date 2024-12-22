@@ -124,6 +124,7 @@ class LogLikelihoodTerm:
 
         if self.device != device:
             self.device = device
+            self.scoring_system.to(device)
             self.score_tensor = self.score_tensor.to(device)
             self.player_indices_tensor = self.player_indices_tensor.to(device)
             self.weights_tensor = self.weights_tensor.to(device)
