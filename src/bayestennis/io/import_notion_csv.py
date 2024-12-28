@@ -1,12 +1,11 @@
 from .. import scoring_systems
 import pandas as pd
-from typing import TypeAlias, Tuple
+from typing import Tuple
+from ..structures import TennisDataFrame
 from glob import glob
 from pathlib import Path
 import numpy as np
 from datetime import datetime, timedelta
-
-TennisDataFrame: TypeAlias = pd.DataFrame
 
 # Load notion_tournaments_config as a pandas DataFrame
 notion_tournaments_config = pd.read_csv(Path(__file__).resolve().parent / 'notion_tournaments_config.csv')
@@ -16,6 +15,15 @@ notion_tournaments_config.set_index('tournament', inplace=True)
 def import_notion_csv (*file_paths: Tuple[str]) -> TennisDataFrame:
     """
     Import a TennisDataFrame from Notion CSV files.
+
+    Description:
+        A Notion CSV file is a CSV file with the following columns:
+            - id
+            - Teams (ignored)
+            - Players A
+            - Players B
+            - Score
+            - Tournament
 
     Args:
         *file_paths : Tuple[str]

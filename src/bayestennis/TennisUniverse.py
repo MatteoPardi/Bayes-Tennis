@@ -2,13 +2,10 @@ import pandas as pd
 import numpy as np
 import torch
 from torch.optim.lr_scheduler import LambdaLR
-from typing import TypeAlias, Union
+from typing import Union
+from .structures import TennisDataFrame, PlayersDataFrame, OptimizationInfo
 from .Loss import Loss
 from .utils import TicToc
-
-TennisDataFrame: TypeAlias = pd.DataFrame
-PlayersDataFrame: TypeAlias = pd.DataFrame
-OptimizationInfo: TypeAlias = pd.DataFrame
 
 
 class TennisUniverse:
@@ -30,25 +27,6 @@ class TennisUniverse:
         get_loss_from_tennisDataFrame(tennisDataFrame)
         optimize(n_iter=1000, lr_start=1e-1, lr_end=1e-3, verbose=100)
         to(device)
-
-    Structure description:
-        TennisDataFrame
-            Please see structures.py.
-        PlayersDataFrame
-            A PlayersDataFrame is a pandas DataFrame with the following columns:
-            - id_player : unique player identifier
-            - name : player name
-            - ability : player ability
-            - rank : player rank
-            - n_singles : number of singles matches
-            - n_doubles : number of doubles matches
-            - n_matches : total number of matches
-            - last_date : last match date played
-            - last_tournament : last tournament player played
-        OptimizationInfo
-            An OptimizationInfo is a pandas DataFrame with the following columns:
-            - idx_iteration : iteration index
-            - loss : loss value 
     """
 
     def __init__ (self, tennisDataFrame: TennisDataFrame, device: Union[str, torch.device] = 'cpu') -> None:
