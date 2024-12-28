@@ -311,8 +311,8 @@ def process_tdf (tdf: TennisDataFrame) -> TennisDataFrame:
     tdf['id_teamB_player2'] = tdf['teamB_player2_name'].map(name_to_id_map).astype(int)
 
     # Compute elapsed days
-    current_date = datetime.now()
-    tdf['elapsed_days'] = (current_date - tdf['date']) / timedelta(days=1)
+    most_recent_date = tdf['date'].max()
+    tdf['elapsed_days'] = (most_recent_date - tdf['date']) / timedelta(days=1)
 
     # Compute log likelihood weights
     half_life_days = 8 * 30  # 8 months. This hard-coded value can be adjusted later, if needed
