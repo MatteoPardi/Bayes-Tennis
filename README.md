@@ -1,6 +1,6 @@
 # Bayesian Tennis Ranking
 
-![bayestennis_cover.png](bayestennis_cover.png)
+![cover.png](cover.png)
 
 ## Motivation
 
