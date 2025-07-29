@@ -106,7 +106,7 @@ class TicToc:
 
     def _pretty_format (self, seconds: float) -> str: 
         """
-        Format the time in seconds as a string with a nice unit.
+        Format the time in seconds as a string with nice units.
         """
 
         if seconds < 1e-6:
